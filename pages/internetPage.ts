@@ -2,15 +2,14 @@ import { Page, expect } from "@playwright/test";
 import { BasePage } from "./basepage";
 import path from "node:path";
 
-export class InternetPage extends BasePage {
 
+export class InternetPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
     }
 
-    // --------------- Locators -----------------
-
+    // Define the all the Locators
     checkbox = this.page.locator("input[type='checkbox']");
     dropdown = this.page.locator("#dropdown");
     dragsource = this.page.locator("#column-a");
@@ -20,9 +19,7 @@ export class InternetPage extends BasePage {
     fileuploadsuccessmessage = this.page.locator("#uploaded-files");
     horizontalslider = this.page.locator("input[type='range']");
 
-
-
-    //------------------checkbox methods ----------------//
+    // Checkbox Methods
     async openCheckboxPage() {
         await this.navigate('/checkboxes');
     }
@@ -34,33 +31,27 @@ export class InternetPage extends BasePage {
         if (await this.checkbox.nth(1).isChecked() === true) {
             await this.checkbox.nth(1).uncheck();
         }
-
     }
 
     async verifyCheckboxes() {
         await expect(this.checkbox.nth(0)).toBeChecked();
         await expect(this.checkbox.nth(1)).not.toBeChecked();
-
     }
 
-    //------------------dropDown methods ----------------//
-
+    // Dropdown Methods
     async openDropDownPage() {
         await this.navigate('/dropdown');
     }
 
     async selectDropDownOption() {
         await this.dropdown.selectOption('Option 2');
-
     }
+
     async verifyDropDownOption() {
         await expect(this.dropdown).toHaveValue('2');
-
     }
 
-
-
-    //------------------drag and drop methods ----------------//
+    // Drag and Drop Methods
     async openDragAndDropPage() {
         await this.navigate('/drag_and_drop');
     }
@@ -74,8 +65,7 @@ export class InternetPage extends BasePage {
         await expect(this.dragtarget).toHaveText('A');
     }
 
-    //------------------File upload methods ----------------//
-
+    // File Upload Methods
     async openFileUploadPage() {
         await this.navigate('/upload');
     }
@@ -84,17 +74,16 @@ export class InternetPage extends BasePage {
         const filePath = path.resolve(__dirname, '../testdata/Gapstars.png');
         await this.fileuploadinput.setInputFiles(filePath);
         await this.fileuploadbutton.click();
-
     }
 
     async verifyFileUpload() {
         await expect(this.fileuploadsuccessmessage).toHaveText('Gapstars.png');
     }
 
-    //---------------------horizontal_slider--------------------------------//
-
-async openHorizontalSliderPage() {
-    await this.navigate('/horizontal_slider');}
+    // Horizontal Slider Methods
+    async openHorizontalSliderPage() {
+        await this.navigate('/horizontal_slider');
+    }
 
     async moveHorizontalSlider() {
         await this.horizontalslider.focus();
@@ -102,13 +91,11 @@ async openHorizontalSliderPage() {
         await this.page.keyboard.press('ArrowRight');
         await this.page.keyboard.press('ArrowRight');
         await this.page.keyboard.press('ArrowRight');
-
     }
 
     async verifyHorizontalSlider() {
         const value = await this.horizontalslider.inputValue();
         expect(value).toBe('2');
     }
-
 
 }
