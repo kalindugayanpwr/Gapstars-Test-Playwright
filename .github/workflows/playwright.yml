@@ -26,6 +26,14 @@ jobs:
     - name: Run Playwright tests
       run: npx playwright test
 
+    - name: Load Allure report history
+      uses: actions/checkout@v4
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: gh-pages
+
     - name: Generate Allure Report
       if: ${{ !cancelled() }} # <--- ADD THIS STEP
       run: npx allure generate allure-results --clean -o allure-report
