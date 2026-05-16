@@ -36,6 +36,7 @@ test.describe('Test Suit', () => {
         await internetPage.openHorizontalSliderPage();
         await internetPage.moveHorizontalSlider();
         await internetPage.verifyHorizontalSlider();
+        console.log('Horizontal slider test completed successfully');
     })
 
 });
