@@ -21,9 +21,7 @@ jobs:
       
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-
-    - name: Generate Allure Report
-
+      continue-on-error: true # Ensures following steps run even if automation tests fail
       
     - name: Run Playwright tests
       run: npx playwright test
