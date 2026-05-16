@@ -5,16 +5,21 @@ on:
   pull_request:
     branches: [ main, master ]
 
-# ADD THESE TWO LINES (Gives GitHub Actions permission to create the gh-pages branch)
+# Grant explicit permissions across the entire job
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }} # Explicitly uses the repository token
     
     - name: Set up Node.js
       uses: actions/setup-node@v4
@@ -38,6 +43,7 @@ jobs:
       with:
         ref: gh-pages
         path: gh-pages
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build Allure Report
       uses: simple-elf/allure-report-action@v1.9
@@ -54,3 +60,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_branch: gh-pages
         publish_dir: allure-history
+        force_orphan: true # Forces branch initialization if it's missing or stuck
